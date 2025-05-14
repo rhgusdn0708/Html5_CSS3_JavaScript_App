@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/book.css">
+    <title>도서 관리 시스템</title>
+</head>
+
+<body>
+    <h1>도서 관리 시스템</h1>
+
+    <div>
+        <div class="form-container"></div>
+        <h2>도서 등록</h2>
+        <form id="bookForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="title">제목:</label>
+                    <input type="text" name="title" id="title">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group"></div>
+                    <label for="author">저자:</label>
+                    <input type="text" name="author" id="author">
+                </div>
+
+                <div class="form-group">
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" name="isbn" id="isbn">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">가격:</label>
+                    <input type="number" name="price" id="price">
+                </div>
+                <div class="form-group">
+                    <label for="publishDate">출판일:</label>
+                    <input type="date" name="publishDate" id="publishDate">
+                </div>
+
+                <button type="submit">도서 등록</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h2>도서 목록</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>저자</th>
+                    <th>ISBN</th>
+                    <th>가격</th>
+                    <th>출판일</th>
+                    <th>액션</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8080/api/books";
+        const bookForm = document.getElementById('bookForm');
+        const bookTableBody = document.getElementById('bookTableBody');
+
+        // 도서 목록 로드
+        function loadBooks() {
+            fetch(API_BASE_URL)
+                .then(response => response.json())
+                .then(data => renderBooks(data));
+        }
+
+        // 도서 목록 렌더링
+        function renderBooks(books) {
+            bookTableBody.innerHTML = books.map(book => `
+        <tr>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.isbn}</td>
+            <td>${book.price}</td>
+            <td>${book.publishDate}</td>
+            <td>
+                <button onclick="editBook(${book.id})">수정</button>
+                <button onclick="deleteBook(${book.id})">삭제</button>
+            </td>
+        </tr>
+    `).join('');
+        }
+
+        // 폼 제출 이벤트
+        bookForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(bookForm);
+            const bookData = Object.fromEntries(formData.entries());
+
+            fetch(API_BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookData)
+            }).then(() => loadBooks());
+        });
+
+        // 초기 로드
+        document.addEventListener('DOMContentLoaded', loadBooks);
+    </script>
+ </body>
+</html>
