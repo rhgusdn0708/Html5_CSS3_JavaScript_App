@@ -45,4 +45,11 @@
     - student 수정하기 전에 데이터 조회 먼저하기
     - get api/students/1 student 조회하는 editStudent() 함수 구현
     - 수정,삭제 버튼의 스타일 추가하기기
+    - 수정 모드일때 취소 버튼 보여주고, resetForm() 함수 구현하고 연결하기기
+    - Put api/students/1 student 수정하는 updateStudent() 함수 구현
+
+ step10
+    - 성공 및 실패 메세지를 alert() 대신 formError <span> 에 보여주기
+    - showSuccess() / showError() / clearMessages() 함수추가
+    - loadStudents() 목록 불러오기 실패한 경우에 처리
     

@@ -8,6 +8,7 @@ const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
 const cancelButton = studentForm.querySelector('.cancel-btn');
 const submitButton = studentForm.querySelector('button[type="submit"]');
+const formError = document.getElementById("formError");
 
 //Document Load 이벤트 처리하기
 document.addEventListener("DOMContentLoaded", function () {
@@ -306,3 +307,9 @@ function updateStudent(studentId, studentData) {
             alert(error.message);
         });
 }
+
+//성공 메시지 출력
+
+//에러 메시지 출력
+
+//메시지 초기화화
